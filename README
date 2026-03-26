@@ -1,1 +1,47 @@
 VIMS PROJECT
+VIMS: Vendor & Invoice Management System
+Project Status: Core Engine Complete 🚀
+1. System Overview
+VIMS is a specialized "Line-Item" billing application designed to track individual service orders performed by various Vendors for specific Customers. Unlike standard invoicing, every task is stored as a unique entity with a custom alphanumeric ID before being grouped into a final bill.
+
+2. The Data Architecture (Schema)
+The system runs on Node.js/Express with a SQLite database managed via Sequelize.
+
+Vendors: Master records of service providers.
+
+Customers: Master records of clients to be billed.
+
+Services (The "Work Order"): * Linked to: 1 Vendor AND 1 Customer.
+
+Unique ID Format: WXXXX (starts at W0001, auto-scales to W10000+).
+
+Fields: Description, Hours, Rate, Total (Hours * Rate), Status (pending or invoiced).
+
+Invoices: Master billing records that group multiple pending services into a single total.
+
+3. Current Key Features
+Sequential Work Orders: Every service is automatically assigned the next available W-Code.
+
+Safety Deletion: Services can be removed via a "Delete" button that requires a browser-native confirmation (window.confirm) to prevent data loss.
+
+Relational Integrity: Services cannot exist without a valid Vendor and Customer.
+
+Dynamic Grouping: The system identifies all "Pending" work for a selected customer and "locks" them into a new Invoice record.
+
+4. Technical Configuration
+Backend Port: 5000
+
+Frontend Port: 3000 (React default)
+
+Database Sync Policy: force: false (to preserve data). Note: Use force: true only if changing the model structure.
+
+5. Development Roadmap (Next Steps)
+When resuming, the following features are prioritized:
+
+Vendor Payout Reports: A table summarizing total "Pending" dollars owed to each specific Vendor.
+
+Search & Filter: The ability to search the History table by W-Code or filter by Vendor name.
+
+PDF Export: Generating a professional-grade invoice document for the Customer.
+
+Edit Mode: The ability to adjust hours or rates on an existing Work Order before it is invoiced.
